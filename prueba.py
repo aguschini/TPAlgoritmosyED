@@ -1,5 +1,11 @@
 import random
 
+#Declaración de variables
+    #nombre: str
+    #numero_secreto: int
+    #numero_secreto1: int
+    #bandera: bool
+
 print("¡Bienvenido al juego de Mayor o Menor!")
 nombre=input("Ingrese su nombre de usuario: ")
 numero_secreto = random.randint(1, 1000)
@@ -7,7 +13,7 @@ numero_secreto1 = random.randint(1, 1000)
 cont_aciertos = 0
 bandera = True
 while bandera:
-        print("El número secreto es:", numero_secreto)
+        print("El número es:", numero_secreto)
         intentos = str(input("Ingrese si el siguiente numero es mayor o menor: ").lower())
         if intentos == "mayor":
             if numero_secreto < numero_secreto1:
