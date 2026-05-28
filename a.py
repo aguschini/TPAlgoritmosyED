@@ -100,6 +100,8 @@ def mayor_menor():
                 else:
                     print(nombre, "¡Incorrecto! El número secreto es menor. El numero era:", numero_secreto1)
                     bandera = False
+                numero_secreto = numero_secreto1
+                numero_secreto1 = random.randint(1, 1000)
             elif intentos == "menor":
                 if numero_secreto > numero_secreto1:
                     print(nombre, "¡Correcto! El número secreto es menor.")
@@ -107,10 +109,11 @@ def mayor_menor():
                 else:
                     print(nombre, "¡Incorrecto! El número secreto es mayor. El numero era:", numero_secreto1)
                     bandera = False
+                numero_secreto = numero_secreto1
+                numero_secreto1 = random.randint(1, 1000)
             else:
                 print("Entrada no válida. Por favor, ingrese 'mayor' o 'menor'.")
-            numero_secreto = numero_secreto1
-            numero_secreto1 = random.randint(1, 1000)
+            
 
     print("¡Juego terminado!", nombre, " Has tenido: ", cont_aciertos, "aciertos.")
 
@@ -137,7 +140,12 @@ def numero_secreto():
     acertado = False
 
     while intentos < max_intentos and not acertado:
-        nro = int(input("Ingrese un número entre 1 y 100: "))
+        lectura = input("Ingrese un número entre 1 y 100: ")
+
+        while not lectura.isdigit():
+            lectura = input("Error. Ingrese un número válido: ")
+
+        nro = int(lectura)
         intentos += 1
 
         if nro < numero_secreto:
@@ -183,28 +191,41 @@ def dados_par_impar():
     nombre = input("Ingrese su nombre de usuario: ")
     cont_aciertos = 0
     jugando = True
+    nro1 = random.randint(1, 6)
+    nro2 = random.randint(1, 6)
+    NRO = nro1 + nro2
+    
     while jugando:
-        nro1 = random.randint(1, 6)
-        nro2 = random.randint(1, 6)
-        NRO = nro1 + nro2
         lectura = input(nombre + ",Ingrese si el resultado de la suma de los dados es par o impar: ").lower()
 
         if lectura == "par":
             if NRO % 2 == 0:
                 print(nombre, "¡Correcto! El resultado de la suma de los dados es par:", NRO)
                 cont_aciertos += 1
+
+                nro1 = random.randint(1, 6)
+                nro2 = random.randint(1, 6)
+                NRO = nro1 + nro2
+            
             else:
                 print(nombre, "¡Incorrecto! El resultado de la suma de los dados es impar. El resultado era:", NRO)
                 jugando = False
+        
         elif lectura == "impar":
             if NRO % 2 != 0:
                 print(nombre, "¡Correcto! El resultado de la suma de los dados es impar:", NRO)
                 cont_aciertos += 1
+                
+                nro1 = random.randint(1, 6)
+                nro2 = random.randint(1, 6)
+                NRO = nro1 + nro2
+
             else:
                 print(nombre, "¡Incorrecto! El resultado de la suma de los dados es par. El resultado era:", NRO)
                 jugando = False
         else:
             print("Entrada no válida. Por favor, ingrese 'par' o 'impar'.")
+            print(NRO)
 
     print(nombre, "Juego terminado." " Has acertado:", cont_aciertos)
    
@@ -216,6 +237,10 @@ def dados_par_impar():
         dados_perdidas += 1
 
 #Programa Principal
+cartel()
+cartel1()
+input("Presione Enter para continuar...")
+
 opc = "" 
 while opc != "S":
     menu()
@@ -236,3 +261,4 @@ while opc != "S":
             reporte()
         case "S":
             print("Gracias por jugar, no apueste, juega por diversión")
+            input("Presione Enter para continuar...")
