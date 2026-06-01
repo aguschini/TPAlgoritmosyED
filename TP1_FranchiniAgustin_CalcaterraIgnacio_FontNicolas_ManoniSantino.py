@@ -225,7 +225,6 @@ def dados_par_impar():
                 jugando = False
         else:
             print("Entrada no válida. Por favor, ingrese 'par' o 'impar'.")
-            print(NRO)
 
     print(nombre, "Juego terminado." " Has acertado:", cont_aciertos)
    
