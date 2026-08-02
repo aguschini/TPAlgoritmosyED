@@ -273,7 +273,6 @@ def crear_mazo():
             mazo[indice_carta] = [valores[indice_valor], palos[indice_palo]]
             indice_carta += 1
 
-    #Mezclado manual del mazo (intercambio de filas completas al azar)
     for indice_actual in range(cantidad_cartas - 1, 0, -1):
         indice_aleatorio = random.randint(0, indice_actual)
         mazo[indice_actual], mazo[indice_aleatorio] = mazo[indice_aleatorio], mazo[indice_actual]
