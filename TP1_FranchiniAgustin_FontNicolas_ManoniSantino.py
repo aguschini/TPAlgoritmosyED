@@ -7,10 +7,11 @@
 import random
 import os
 
-#Cantidad maxima de jugadores permitidos por juego
+#Variables globales: cantidad maxima de jugadores permitidos por juego y cantidad maxima de cartas que puede llegar a tener una mano en Blackjack
+
 maximo_jugadores = 10
 
-#Cantidad maxima de cartas que puede llegar a tener una mano en Blackjack
+
 maximo_cartas_mano = 21
 
 def limpiar_consola():
@@ -21,30 +22,24 @@ def limpiar_consola():
 
 
 #-------------------------------------------------------------
-# Arreglos de tamaño fijo para el registro de jugadores de cada juego.
-# Cada arreglo tiene "maximo_jugadores" lugares reservados desde el inicio.
-# Un contador aparte indica cuantos lugares estan realmente ocupados.
+# Arreglos para el registro de jugadores y sus puntajes en cada juego
 #-------------------------------------------------------------
 
-#Mayor o Menor: nombre y ultima racha de cada jugador
 mm_nombres = [""] * maximo_jugadores
 mm_rachas = [0] * maximo_jugadores
 mm_cantidad_registrados = 0
 
-#Numero Secreto: nombre, partidas jugadas, ganadas y perdidas
 ns_nombres = [""] * maximo_jugadores
 ns_partidas = [0] * maximo_jugadores
 ns_ganadas = [0] * maximo_jugadores
 ns_perdidas = [0] * maximo_jugadores
 ns_cantidad_registrados = 0
 
-#Blackjack: nombre, partidas jugadas y ganadas
 bj_nombres = [""] * maximo_jugadores
 bj_partidas = [0] * maximo_jugadores
 bj_ganadas = [0] * maximo_jugadores
 bj_cantidad_registrados = 0
 
-#Par o Impar (dados): nombre, credito actual y cantidad de aciertos
 pi_nombres = [""] * maximo_jugadores
 pi_creditos = [0] * maximo_jugadores
 pi_aciertos = [0] * maximo_jugadores
@@ -79,14 +74,13 @@ def menu():
 
 
 #-------------------------------------------------------------
-#Funcion generica de busqueda de un jugador dentro de un arreglo de nombres.
-#Solo recorre las posiciones realmente ocupadas (cantidad_registrados).
+#Funcion de busqueda de un jugador dentro de un arreglo de nombres.
 #-------------------------------------------------------------
 def buscar_indice(nombres, cantidad_registrados, nombre_buscado):
-    #Declaracion de variables:
-    #indice_actual: int -> posicion que se va recorriendo del arreglo
-    #indice_encontrado: int -> indice donde se encontro el nombre buscado (-1 si no se encontro)
-    #ya_se_encontro: bool -> indica si ya se encontro el nombre, para dejar de comparar sin usar break
+    """ declarative de Variables utilizadas
+    indice_actual, indice_encontrado: int
+    ya_se_encontro: bool
+    """
 
     indice_encontrado = -1
     ya_se_encontro = False
@@ -102,14 +96,11 @@ def buscar_indice(nombres, cantidad_registrados, nombre_buscado):
 # Juego 1: Mayor o Menor
 #-------------------------------------------------------------
 def mayor_menor():
-    #Declaracion de variables:
-    #nombre: str -> nombre ingresado por el usuario
-    #indice_jugador: int -> posicion del jugador dentro de los arreglos mm_nombres / mm_rachas
-    #numero_secreto: int -> numero que se muestra en pantalla en cada ronda
-    #numero_siguiente: int -> numero generado al azar que se compara contra el actual
-    #cont_aciertos: int -> racha de aciertos del jugador en la partida actual
-    #bandera: bool -> indica si el jugador sigue en partida o ya perdió
-    #intentos: str -> respuesta del jugador ("mayor" o "menor")
+    """ declarative de Variables utilizadas
+    nombre, intentos: string
+    indice_jugador, numero_secreto, numero_siguiente, cont_aciertos: int
+    bandera: bool
+    """
 
     global mm_cantidad_registrados
 
@@ -170,15 +161,11 @@ def mayor_menor():
 # Juego 2: Numero Secreto
 #-------------------------------------------------------------
 def numero_secreto():
-    #Declaracion de variables:
-    #nombre_jugador: str -> nombre ingresado por el usuario
-    #indice_jugador: int -> posicion del jugador dentro de los arreglos ns_nombres / ns_partidas / ns_ganadas / ns_perdidas
-    #numero_a_adivinar: int -> numero secreto generado al azar
-    #intentos_realizados: int -> cantidad de intentos que ya uso el jugador
-    #intentos_maximos: int -> cantidad maxima de intentos permitidos
-    #jugador_acerto: bool -> indica si el jugador adivino el numero
-    #numero_ingresado_texto: str -> lo que el jugador escribe por teclado (antes de convertir a int)
-    #numero_ingresado: int -> numero que el jugador intenta adivinar, ya convertido a entero
+    """ declarative de Variables utilizadas
+    nombre_jugador, numero_ingresado_texto: string
+    indice_jugador, numero_a_adivinar, intentos_realizados, intentos_maximos, numero_ingresado: int
+    jugador_acerto: bool
+    """
 
     global ns_cantidad_registrados
 
@@ -238,16 +225,11 @@ def numero_secreto():
 # Juego 3: Blackjack
 #-------------------------------------------------------------
 def crear_mazo():
-    #Declaracion de variables:
-    #palos: arr[str] -> los 4 palos de la baraja
-    #valores: arr[str] -> los 13 valores posibles de cada carta
-    #cantidad_cartas: int -> cantidad total de cartas del mazo (52)
-    #mazo: mat[str] -> matriz de 52 filas x 2 columnas; cada fila es una carta [valor, palo]
-    #indice_carta: int -> posicion que se va llenando dentro del mazo
-    #indice_palo: int -> palo que se esta recorriendo
-    #indice_valor: int -> valor que se esta recorriendo
-    #indice_actual: int -> posicion actual durante el mezclado
-    #indice_aleatorio: int -> posicion aleatoria con la que se intercambia durante el mezclado
+    """ declarative de Variables utilizadas
+    palos, valores: arr[string]
+    mazo: mat[string]
+    cantidad_cartas, indice_carta, indice_palo, indice_valor, indice_actual, indice_aleatorio: int
+    """
 
     palos = [""] * 4
     palos[0] = "Corazones"
@@ -296,10 +278,9 @@ def valor_carta(valor_de_la_carta):
         return int(valor_de_la_carta)
 
 def calcular_puntaje(valores_mano, cantidad_cartas_mano):
-    #Declaracion de variables:
-    #puntaje_total: int -> suma de los valores de las cartas de la mano
-    #cantidad_ases: int -> cantidad de ases presentes en la mano
-    #indice_carta: int -> posicion que se esta recorriendo dentro de la mano
+    """ declarative de Variables utilizadas
+    puntaje_total, cantidad_ases, indice_carta: int
+    """
 
     puntaje_total = 0
     cantidad_ases = 0
@@ -313,9 +294,10 @@ def calcular_puntaje(valores_mano, cantidad_cartas_mano):
     return puntaje_total
 
 def mostrar_mano(valores_mano, palos_mano, cantidad_cartas_mano, puntaje, nombre_quien):
-    #Declaracion de variables:
-    #texto_cartas: str -> texto armado con todas las cartas de la mano para mostrar por pantalla
-    #indice_carta: int -> posicion que se esta recorriendo dentro de la mano
+    """ declarative de Variables utilizadas
+    texto_cartas: string
+    indice_carta: int
+    """
 
     texto_cartas = ""
     for indice_carta in range(cantidad_cartas_mano):
@@ -323,22 +305,13 @@ def mostrar_mano(valores_mano, palos_mano, cantidad_cartas_mano, puntaje, nombre
     print(nombre_quien, "tiene:", texto_cartas, "-> Total:", puntaje)
 
 def blackjack():
-    #Declaracion de variables:
-    #nombre_jugador: str -> nombre ingresado por el usuario
-    #indice_jugador: int -> posicion del jugador dentro de los arreglos bj_nombres / bj_partidas / bj_ganadas
-    #quiere_jugar_de_nuevo: bool -> indica si el jugador quiere iniciar otra partida
-    #mazo: mat[str] -> matriz de 52 cartas ya mezclada (cada fila es [valor, palo])
-    #proxima_carta: int -> puntero a la siguiente carta sin repartir dentro del mazo
-    #cartas_jugador_valores, cartas_jugador_palos: arr[str] -> cartas que tiene el jugador en la mano
-    #cantidad_cartas_jugador: int -> cantidad de cartas que tiene el jugador en la mano
-    #cartas_banca_valores, cartas_banca_palos: arr[str] -> cartas que tiene la banca en la mano
-    #cantidad_cartas_banca: int -> cantidad de cartas que tiene la banca en la mano
-    #puntaje_jugador: int -> puntaje actual del jugador
-    #puntaje_banca: int -> puntaje actual de la banca
-    #jugador_se_paso: bool -> indica si el jugador supero los 21 puntos
-    #es_turno_jugador: bool -> indica si todavia es el turno del jugador
-    #decision_jugador: str -> decision del jugador ("pedir" o "plantarse")
-    #respuesta_usuario: str -> respuesta del jugador ante "¿jugar otra partida?"
+    """ declarative de Variables utilizadas
+    nombre_jugador, decision_jugador, respuesta_usuario: string
+    indice_jugador, proxima_carta, cantidad_cartas_jugador, cantidad_cartas_banca, puntaje_jugador, puntaje_banca: int
+    quiere_jugar_de_nuevo, jugador_se_paso, es_turno_jugador: bool
+    mazo: mat[string]
+    cartas_jugador_valores, cartas_jugador_palos, cartas_banca_valores, cartas_banca_palos: arr[string]
+    """
 
     global bj_cantidad_registrados
 
@@ -373,7 +346,6 @@ def blackjack():
         cartas_banca_palos = [""] * maximo_cartas_mano
         cantidad_cartas_banca = 0
 
-        #Reparto inicial: 2 cartas para el jugador y 2 para la banca
         cartas_jugador_valores[0] = mazo[proxima_carta][0]
         cartas_jugador_palos[0] = mazo[proxima_carta][1]
         proxima_carta += 1
@@ -453,21 +425,14 @@ def blackjack():
 
 
 #-------------------------------------------------------------
-# Juego 4: Dados - Par e Impar (con credito)
+# Juego 4: Dados - Par e Impar
 #-------------------------------------------------------------
 def dados_par_impar():
-    #Declaracion de variables:
-    #nombre_jugador: str -> nombre ingresado por el usuario
-    #indice_jugador: int -> posicion del jugador dentro de los arreglos pi_nombres / pi_creditos / pi_aciertos
-    #juego_activo: bool -> indica si el jugador sigue jugando
-    #apuesta_texto: str -> monto apostado ingresado por teclado (antes de convertir a int)
-    #monto_apuesta: int -> monto apostado ya convertido a entero
-    #dado1: int -> resultado del primer dado
-    #dado2: int -> resultado del segundo dado
-    #suma_dados: int -> suma de ambos dados
-    #respuesta_par_impar: str -> respuesta del jugador ("par" o "impar")
-    #resultado_es_par: bool -> indica si la suma de los dados dio par
-    #respuesta_usuario: str -> respuesta del jugador ante "¿seguir jugando?"
+    """ declarative de Variables utilizadas
+    nombre_jugador, apuesta_texto, respuesta_par_impar, respuesta_usuario: string
+    indice_jugador, monto_apuesta, dado1, dado2, suma_dados: int
+    juego_activo, resultado_es_par: bool
+    """
 
     global pi_cantidad_registrados
 
@@ -531,36 +496,33 @@ def dados_par_impar():
 
 
 #-------------------------------------------------------------
-# Juego 5: Reporte (submenu)
+# Juego 5: Reporte
 #-------------------------------------------------------------
 def mostrar_ranking(nombres, valores, cantidad_registrados, etiqueta):
-    #Declaracion de variables:
-    #nombres_ordenados: arr[str] -> copia de los nombres realmente registrados, se ordena sin modificar el original
-    #valores_ordenados: arr[int] -> copia de los valores realmente registrados, se ordena sin modificar el original
-    #indice_copia: int -> posicion usada para copiar manualmente los datos
-    #indice_i: int -> contador externo del ordenamiento burbuja
-    #indice_j: int -> contador interno del ordenamiento burbuja
+    """ declarative de Variables utilizadas
+    nombres_ordenados: arr[string]
+    valores_ordenados: arr[int]
+    i, j: int
+    """
 
     if cantidad_registrados == 0:
         print("No hay jugadores registrados en este juego.")
         return
 
-    #Copiamos manualmente, elemento por elemento, para no modificar los arreglos originales
     nombres_ordenados = [""] * cantidad_registrados
     valores_ordenados = [0] * cantidad_registrados
-    for indice_copia in range(cantidad_registrados):
-        nombres_ordenados[indice_copia] = nombres[indice_copia]
-        valores_ordenados[indice_copia] = valores[indice_copia]
+    for i in range(cantidad_registrados):
+        nombres_ordenados[i] = nombres[i]
+        valores_ordenados[i] = valores[i]
 
-    #Ordenamiento burbuja de mayor a menor
-    for indice_i in range(cantidad_registrados):
-        for indice_j in range(0, cantidad_registrados - indice_i - 1):
-            if valores_ordenados[indice_j] < valores_ordenados[indice_j + 1]:
-                valores_ordenados[indice_j], valores_ordenados[indice_j + 1] = valores_ordenados[indice_j + 1], valores_ordenados[indice_j]
-                nombres_ordenados[indice_j], nombres_ordenados[indice_j + 1] = nombres_ordenados[indice_j + 1], nombres_ordenados[indice_j]
+    for i in range(cantidad_registrados):
+        for j in range(0, cantidad_registrados - i - 1):
+            if valores_ordenados[j] < valores_ordenados[j + 1]:
+                valores_ordenados[j], valores_ordenados[j + 1] = valores_ordenados[j + 1], valores_ordenados[j]
+                nombres_ordenados[j], nombres_ordenados[j + 1] = nombres_ordenados[j + 1], nombres_ordenados[j]
 
-    for indice_i in range(cantidad_registrados):
-        print(nombres_ordenados[indice_i], "-", valores_ordenados[indice_i], etiqueta)
+    for i in range(cantidad_registrados):
+        print(nombres_ordenados[i], "-", valores_ordenados[i], etiqueta)
 
 def reporte_ranking_ganadores():
     print("\n--- Ranking Número Secreto (partidas ganadas) ---")
@@ -573,10 +535,11 @@ def reporte_ranking_ganadores():
     mostrar_ranking(pi_nombres, pi_aciertos, pi_cantidad_registrados, "aciertos")
 
 def reporte_juegos_jugador():
-    #Declaracion de variables:
-    #nombre_jugador: str -> nombre del jugador a consultar
-    #jugador_encontrado: bool -> indica si el jugador aparecio en al menos un juego
-    #indice_jugador: int -> posicion del jugador dentro del arreglo de nombres de cada juego
+    """ declarative de Variables utilizadas
+    nombre_jugador: string
+    jugador_encontrado: bool
+    indice_jugador: int
+    """
 
     nombre_jugador = input("Ingrese el nombre del jugador a consultar: ")
     jugador_encontrado = False
@@ -605,12 +568,11 @@ def reporte_juegos_jugador():
         print("El jugador", nombre_jugador, "no registra partidas jugadas.")
 
 def reporte_credito():
-    #Declaracion de variables:
-    #nombres_ordenados: arr[str] -> copia de los nombres realmente registrados, se ordena sin modificar el original
-    #creditos_ordenados: arr[int] -> copia de los creditos realmente registrados, se ordena sin modificar el original
-    #indice_copia: int -> posicion usada para copiar manualmente los datos
-    #indice_i: int -> contador externo del ordenamiento burbuja
-    #indice_j: int -> contador interno del ordenamiento burbuja
+    """ declarative de Variables utilizadas
+    nombres_ordenados: arr[string]
+    creditos_ordenados: arr[int]
+    i, j: int
+    """
 
     if pi_cantidad_registrados == 0:
         print("No hay jugadores registrados en Par o Impar.")
@@ -618,24 +580,24 @@ def reporte_credito():
 
     nombres_ordenados = [""] * pi_cantidad_registrados
     creditos_ordenados = [0] * pi_cantidad_registrados
-    for indice_copia in range(pi_cantidad_registrados):
-        nombres_ordenados[indice_copia] = pi_nombres[indice_copia]
-        creditos_ordenados[indice_copia] = pi_creditos[indice_copia]
+    for i in range(pi_cantidad_registrados):
+        nombres_ordenados[i] = pi_nombres[i]
+        creditos_ordenados[i] = pi_creditos[i]
 
-    #Ordenamiento burbuja de menor a mayor
-    for indice_i in range(pi_cantidad_registrados):
-        for indice_j in range(0, pi_cantidad_registrados - indice_i - 1):
-            if creditos_ordenados[indice_j] > creditos_ordenados[indice_j + 1]:
-                creditos_ordenados[indice_j], creditos_ordenados[indice_j + 1] = creditos_ordenados[indice_j + 1], creditos_ordenados[indice_j]
-                nombres_ordenados[indice_j], nombres_ordenados[indice_j + 1] = nombres_ordenados[indice_j + 1], nombres_ordenados[indice_j]
+    for i in range(pi_cantidad_registrados):
+        for j in range(0, pi_cantidad_registrados - i - 1):
+            if creditos_ordenados[j] > creditos_ordenados[j + 1]:
+                creditos_ordenados[j], creditos_ordenados[j + 1] = creditos_ordenados[j + 1], creditos_ordenados[j]
+                nombres_ordenados[j], nombres_ordenados[j + 1] = nombres_ordenados[j + 1], nombres_ordenados[j]
 
-    for indice_i in range(pi_cantidad_registrados):
-        print(nombres_ordenados[indice_i], "- Crédito:", creditos_ordenados[indice_i])
+    for i in range(pi_cantidad_registrados):
+        print(nombres_ordenados[i], "- Crédito:", creditos_ordenados[i])
 
 def reporte_racha():
-    #Declaracion de variables:
-    #nombre_jugador: str -> nombre del jugador a consultar
-    #indice_jugador: int -> posicion del jugador dentro del arreglo mm_nombres
+    """ declarative de Variables utilizadas
+    nombre_jugador: string
+    indice_jugador: int
+    """
 
     nombre_jugador = input("Ingrese el nombre del jugador: ")
     indice_jugador = buscar_indice(mm_nombres, mm_cantidad_registrados, nombre_jugador)
@@ -653,8 +615,9 @@ def menu_reporte():
     print("E. Volver al menú principal")
 
 def reporte():
-    #Declaracion de variables:
-    #opc: str -> opcion del submenu de reporte ingresada por el usuario
+    """ declarative de Variables utilizadas
+    opc: string
+    """
 
     opc = ""
     while opc != "E":
@@ -681,8 +644,9 @@ def reporte():
 #-------------------------------------------------------------
 #Programa Principal
 #-------------------------------------------------------------
-#Declaracion de variables:
-#opc: str -> opcion del menu principal ingresada por el usuario
+""" declarative de Variables utilizadas
+opc: string
+"""
 
 cartel()
 cartel1()
