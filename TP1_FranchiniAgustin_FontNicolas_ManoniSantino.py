@@ -242,35 +242,50 @@ def crear_mazo():
     #palos: arr[str] -> los 4 palos de la baraja
     #valores: arr[str] -> los 13 valores posibles de cada carta
     #cantidad_cartas: int -> cantidad total de cartas del mazo (52)
-    #mazo_valores: arr[str] -> valor de cada carta del mazo, en orden
-    #mazo_palos: arr[str] -> palo de cada carta del mazo, en el mismo orden que mazo_valores
+    #mazo: mat[str] -> matriz de 52 filas x 2 columnas; cada fila es una carta [valor, palo]
     #indice_carta: int -> posicion que se va llenando dentro del mazo
     #indice_palo: int -> palo que se esta recorriendo
     #indice_valor: int -> valor que se esta recorriendo
     #indice_actual: int -> posicion actual durante el mezclado
     #indice_aleatorio: int -> posicion aleatoria con la que se intercambia durante el mezclado
 
-    palos = ["Corazones", "Diamantes", "Treboles", "Picas"]
-    valores = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+    palos = [""] * 4
+    palos[0] = "Corazones"
+    palos[1] = "Diamantes"
+    palos[2] = "Treboles"
+    palos[3] = "Picas"
+
+    valores = [""] * 13
+    valores[0] = "2"
+    valores[1] = "3"
+    valores[2] = "4"
+    valores[3] = "5"
+    valores[4] = "6"
+    valores[5] = "7"
+    valores[6] = "8"
+    valores[7] = "9"
+    valores[8] = "10"
+    valores[9] = "J"
+    valores[10] = "Q"
+    valores[11] = "K"
+    valores[12] = "A"
+
     cantidad_cartas = len(palos) * len(valores)
 
-    mazo_valores = [""] * cantidad_cartas
-    mazo_palos = [""] * cantidad_cartas
+    mazo = [""] * cantidad_cartas
 
     indice_carta = 0
     for indice_palo in range(len(palos)):
         for indice_valor in range(len(valores)):
-            mazo_valores[indice_carta] = valores[indice_valor]
-            mazo_palos[indice_carta] = palos[indice_palo]
+            mazo[indice_carta] = [valores[indice_valor], palos[indice_palo]]
             indice_carta += 1
 
-    #Mezclado manual del mazo (intercambio de posiciones al azar)
+    #Mezclado manual del mazo (intercambio de filas completas al azar)
     for indice_actual in range(cantidad_cartas - 1, 0, -1):
         indice_aleatorio = random.randint(0, indice_actual)
-        mazo_valores[indice_actual], mazo_valores[indice_aleatorio] = mazo_valores[indice_aleatorio], mazo_valores[indice_actual]
-        mazo_palos[indice_actual], mazo_palos[indice_aleatorio] = mazo_palos[indice_aleatorio], mazo_palos[indice_actual]
+        mazo[indice_actual], mazo[indice_aleatorio] = mazo[indice_aleatorio], mazo[indice_actual]
 
-    return mazo_valores, mazo_palos
+    return mazo
 
 def valor_carta(valor_de_la_carta):
     if valor_de_la_carta == "J" or valor_de_la_carta == "Q" or valor_de_la_carta == "K":
@@ -312,7 +327,7 @@ def blackjack():
     #nombre_jugador: str -> nombre ingresado por el usuario
     #indice_jugador: int -> posicion del jugador dentro de los arreglos bj_nombres / bj_partidas / bj_ganadas
     #quiere_jugar_de_nuevo: bool -> indica si el jugador quiere iniciar otra partida
-    #mazo_valores, mazo_palos: arr[str] -> mazo de 52 cartas ya mezclado
+    #mazo: mat[str] -> matriz de 52 cartas ya mezclada (cada fila es [valor, palo])
     #proxima_carta: int -> puntero a la siguiente carta sin repartir dentro del mazo
     #cartas_jugador_valores, cartas_jugador_palos: arr[str] -> cartas que tiene el jugador en la mano
     #cantidad_cartas_jugador: int -> cantidad de cartas que tiene el jugador en la mano
@@ -347,7 +362,7 @@ def blackjack():
 
     quiere_jugar_de_nuevo = True
     while quiere_jugar_de_nuevo:
-        mazo_valores, mazo_palos = crear_mazo()
+        mazo = crear_mazo()
         proxima_carta = 0
 
         cartas_jugador_valores = [""] * maximo_cartas_mano
@@ -359,19 +374,19 @@ def blackjack():
         cantidad_cartas_banca = 0
 
         #Reparto inicial: 2 cartas para el jugador y 2 para la banca
-        cartas_jugador_valores[0] = mazo_valores[proxima_carta]
-        cartas_jugador_palos[0] = mazo_palos[proxima_carta]
+        cartas_jugador_valores[0] = mazo[proxima_carta][0]
+        cartas_jugador_palos[0] = mazo[proxima_carta][1]
         proxima_carta += 1
-        cartas_jugador_valores[1] = mazo_valores[proxima_carta]
-        cartas_jugador_palos[1] = mazo_palos[proxima_carta]
+        cartas_jugador_valores[1] = mazo[proxima_carta][0]
+        cartas_jugador_palos[1] = mazo[proxima_carta][1]
         proxima_carta += 1
         cantidad_cartas_jugador = 2
 
-        cartas_banca_valores[0] = mazo_valores[proxima_carta]
-        cartas_banca_palos[0] = mazo_palos[proxima_carta]
+        cartas_banca_valores[0] = mazo[proxima_carta][0]
+        cartas_banca_palos[0] = mazo[proxima_carta][1]
         proxima_carta += 1
-        cartas_banca_valores[1] = mazo_valores[proxima_carta]
-        cartas_banca_palos[1] = mazo_palos[proxima_carta]
+        cartas_banca_valores[1] = mazo[proxima_carta][0]
+        cartas_banca_palos[1] = mazo[proxima_carta][1]
         proxima_carta += 1
         cantidad_cartas_banca = 2
 
@@ -390,8 +405,8 @@ def blackjack():
             else:
                 decision_jugador = input("¿Quiere 'Pedir' o 'Plantarse'? ").lower()
                 if decision_jugador == "pedir":
-                    cartas_jugador_valores[cantidad_cartas_jugador] = mazo_valores[proxima_carta]
-                    cartas_jugador_palos[cantidad_cartas_jugador] = mazo_palos[proxima_carta]
+                    cartas_jugador_valores[cantidad_cartas_jugador] = mazo[proxima_carta][0]
+                    cartas_jugador_palos[cantidad_cartas_jugador] = mazo[proxima_carta][1]
                     cantidad_cartas_jugador += 1
                     proxima_carta += 1
                     puntaje_jugador = calcular_puntaje(cartas_jugador_valores, cantidad_cartas_jugador)
@@ -410,8 +425,8 @@ def blackjack():
             print("\nTurno de la banca...")
             mostrar_mano(cartas_banca_valores, cartas_banca_palos, cantidad_cartas_banca, puntaje_banca, "Banca")
             while puntaje_banca < 17:
-                cartas_banca_valores[cantidad_cartas_banca] = mazo_valores[proxima_carta]
-                cartas_banca_palos[cantidad_cartas_banca] = mazo_palos[proxima_carta]
+                cartas_banca_valores[cantidad_cartas_banca] = mazo[proxima_carta][0]
+                cartas_banca_palos[cantidad_cartas_banca] = mazo[proxima_carta][1]
                 cantidad_cartas_banca += 1
                 proxima_carta += 1
                 puntaje_banca = calcular_puntaje(cartas_banca_valores, cantidad_cartas_banca)
