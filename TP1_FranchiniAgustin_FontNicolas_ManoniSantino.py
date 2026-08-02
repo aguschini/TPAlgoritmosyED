@@ -58,6 +58,11 @@ def cartel1():
     print("¡Disclaimer!")
     print("*Los juegos de apuestas estan prohibidos para los menores de edad!! y son perjudiciales para la salud*")
 
+def cartel_empate():
+    print("*" * 50)
+    print(" ¡SALIÓ EL MISMO NÚMERO! Se le otorga el punto como correcto ")
+    print("*" * 50)
+
 
 #-------------------------------------------------------------
 #Menu Principal
@@ -130,7 +135,13 @@ def mayor_menor():
         print("El número es:", numero_secreto)
         intentos = input("Ingrese si el siguiente numero es mayor o menor: ").lower()
 
-        if intentos == "mayor":
+        if numero_secreto == numero_siguiente:
+            cartel_empate()
+            cont_aciertos += 1
+            numero_secreto = numero_siguiente
+            numero_siguiente = random.randint(1, 1000)
+
+        elif intentos == "mayor":
             if numero_secreto < numero_siguiente:
                 print(nombre, "¡Correcto! El número secreto es mayor.")
                 cont_aciertos += 1
@@ -365,7 +376,8 @@ def blackjack():
         puntaje_jugador = calcular_puntaje(cartas_jugador_valores, cantidad_cartas_jugador)
         puntaje_banca = calcular_puntaje(cartas_banca_valores, cantidad_cartas_banca)
 
-        print("\nLa banca muestra:", cartas_banca_valores[0], "de", cartas_banca_palos[0], "y una carta oculta")
+        print("\nLa banca muestra:")
+        mostrar_mano(cartas_banca_valores, cartas_banca_palos, cantidad_cartas_banca, puntaje_banca, "Banca")
         mostrar_mano(cartas_jugador_valores, cartas_jugador_palos, cantidad_cartas_jugador, puntaje_jugador, nombre_jugador)
 
         jugador_se_paso = False
