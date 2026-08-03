@@ -10,8 +10,6 @@ import os
 #Variables globales: cantidad maxima de jugadores permitidos por juego y cantidad maxima de cartas que puede llegar a tener una mano en Blackjack
 
 maximo_jugadores = 10
-
-
 maximo_cartas_mano = 21
 
 def limpiar_consola():
@@ -58,10 +56,7 @@ def cartel1():
     print("¡Disclaimer!")
     print("*Los juegos de apuestas estan prohibidos para los menores de edad!! y son perjudiciales para la salud*")
 
-def cartel_empate():
-    print("*" * 50)
-    print(" ¡SALIÓ EL MISMO NÚMERO! Se le otorga el punto como correcto ")
-    print("*" * 50)
+
 
 
 #-------------------------------------------------------------
@@ -136,7 +131,9 @@ def mayor_menor():
         intentos = input("Ingrese si el siguiente numero es mayor o menor: ").lower()
 
         if numero_secreto == numero_siguiente:
-            cartel_empate()
+            print("*" * 50)
+            print(" ¡SALIÓ EL MISMO NÚMERO! Se le otorga el punto como correcto ")
+            print("*" * 50)
             cont_aciertos += 1
             numero_secreto = numero_siguiente
             numero_siguiente = random.randint(1, 1000)
@@ -557,22 +554,22 @@ def reporte_juegos_jugador():
 
     indice_jugador = buscar_indice(mm_nombres, mm_cantidad_registrados, nombre_jugador)
     if indice_jugador != -1:
-        print(nombre_jugador, "jugó a Mayor o Menor. Racha:", mm_rachas[indice_jugador], "puntos.")
+        print(nombre_jugador, "jugó a Mayor o Menor. Racha:", mm_rachas[indice_jugador])
         jugador_encontrado = True
 
     indice_jugador = buscar_indice(ns_nombres, ns_cantidad_registrados, nombre_jugador)
     if indice_jugador != -1:
-        print(nombre_jugador, "jugó a Número Secreto. Partidas ganadas:", ns_ganadas[indice_jugador], "puntos.")
+        print(nombre_jugador, "jugó a Número Secreto. Partidas ganadas:", ns_ganadas[indice_jugador])
         jugador_encontrado = True
 
     indice_jugador = buscar_indice(bj_nombres, bj_cantidad_registrados, nombre_jugador)
     if indice_jugador != -1:
-        print(nombre_jugador, "jugó a Blackjack. Partidas ganadas:", bj_ganadas[indice_jugador], "puntos.")
+        print(nombre_jugador, "jugó a Blackjack. Partidas ganadas:", bj_ganadas[indice_jugador])
         jugador_encontrado = True
 
     indice_jugador = buscar_indice(pi_nombres, pi_cantidad_registrados, nombre_jugador)
     if indice_jugador != -1:
-        print(nombre_jugador, "jugó a Par o Impar. Aciertos:", pi_aciertos[indice_jugador], "puntos. Crédito actual:", pi_creditos[indice_jugador])
+        print(nombre_jugador, "jugó a Par o Impar. Aciertos:", pi_aciertos[indice_jugador], "Crédito actual:", pi_creditos[indice_jugador])
         jugador_encontrado = True
 
     if not jugador_encontrado:
